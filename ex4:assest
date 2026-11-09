@@ -1,0 +1,83 @@
+import 'package:flutter/material.dart';
+void main() {
+ runApp(const MyApp());
+}
+class MyApp extends StatelessWidget {
+ const MyApp({super.key});
+ @override
+ Widget build(BuildContext context) {
+ return const MaterialApp(
+ debugShowCheckedModeBanner: false,
+ home: GalleryPage(),
+ );
+ }
+}
+class GalleryPage extends StatelessWidget {
+ const GalleryPage({super.key});
+ @override
+ Widget build(BuildContext context) {
+ return Scaffold(
+ appBar: AppBar(
+ title: const Text('Photo Gallery'),
+ backgroundColor: Colors.blue,
+ ),
+ body: GridView.count(
+ crossAxisCount: 2,
+ children: [
+ Card(
+ child: Column(
+ children: [
+ Expanded(
+ child: Image.asset(
+ 'assets/nature.jpg',
+ fit: BoxFit.cover,
+ ),
+ ),
+ const Text('Nature'),
+ ],
+ ),
+ ),
+ Card(
+ child: Column(
+ children: [
+ Expanded(
+ child: Image.asset(
+ 'assets/flower.jpg',
+ fit: BoxFit.cover,
+ ),
+ ),
+ const Text('Flowers'),
+ ],
+ ),
+ ),
+ Card(
+ child: Column(
+ children: [
+ Expanded(
+ child: Image.asset(
+ 'assets/beach.jpg',
+ fit: BoxFit.cover,
+ ),
+ ),
+ const Text('Beach'),
+ ],
+ ),
+ ),
+ Card(
+ child: Column(
+ children: [
+ Expanded(
+ child: Image.asset(
+ 'assets/mountain.jpg',
+ fit: BoxFit.cover,
+ ),
+ ),
+ const Text('Mountains'),
+ ],
+ ),
+ ),
+ ],
+ ),
+ );
+ }
+}
