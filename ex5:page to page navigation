@@ -1,0 +1,104 @@
+Code:
+In main.dart:
+import 'package:flutter/material.dart';
+import 'home_screen.dart';
+import 'second_screen.dart';
+void main() {
+ runApp(MyApp());
+}
+class MyApp extends StatelessWidget {
+ @override
+ Widget build(BuildContext context) {
+ return MaterialApp(
+ title: 'Attendance App',
+ initialRoute: '/',
+ routes: {
+ '/': (context) => HomeScreen(),
+ '/second': (context) => SecondScreen(),
+ },
+ );
+ }
+}
+In home_screen.dart – Input Screen
+import 'package:flutter/material.dart';
+class HomeScreen extends StatelessWidget {
+ final name = TextEditingController();
+ final reg = TextEditingController();
+ final total = TextEditingController();
+ final attended = TextEditingController();
+ @override
+ Widget build(BuildContext context) {
+ return Scaffold(
+ appBar: AppBar(title: const Text('Student Attendance')),
+ body: Padding(
+ padding: const EdgeInsets.all(20),
+ child: Column(
+ children: [
+ TextField(
+ controller: name,
+ decoration: const InputDecoration(labelText: 'Name'),
+ ),
+ TextField(
+ controller: reg,
+ decoration: const InputDecoration(labelText: 'Register Number'),
+ ),
+ TextField(
+ controller: total,
+ decoration: const InputDecoration(labelText: 'Total Classes'),
+ ),
+ TextField(
+ controller: attended,
+ decoration: const InputDecoration(labelText: 'Classes Attended'),
+ ),
+ ElevatedButton(
+ onPressed: () {
+ Navigator.pushNamed(
+ context,
+ '/second',
+ arguments: [
+ name.text,
+ reg.text,
+ total.text,
+ attended.text,
+ ],
+ );
+ },
+ child: const Text('View Attendance'),
+ ),
+ ],
+ ),
+ ),
+ );
+ }
+}
+JavaScript
+In second_screen.dart – Attendance Result Screen
+import 'package:flutter/material.dart';
+class SecondScreen extends StatelessWidget {
+ @override
+ Widget build(BuildContext context) {
+ final data = ModalRoute.of(context)!.settings.arguments as List;
+ double percentage =
+ (int.parse(data[3]) / int.parse(data[2])) * 100;
+ return Scaffold(
+ appBar: AppBar(title: Text('Attendance Result')),
+ body: Center(
+ child: Card(
+ margin: EdgeInsets.all(20),
+ child: ListTile(
+ leading: Icon(Icons.person),
+ title: Text('Name: ${data[0]}'),
+ subtitle: Text(
+ 'Register No: ${data[1]}\n'
+ 'Total Classes: ${data[2]}\n'
+ 'Classes Attended: ${data[3]}\n'
+ 'Attendance: ${percentage.toStringAsFixed(2)}%\n'
+ '${percentage >= 75 ? "Eligible for Examination" : "Not Eligible for
+Examination"}',
+ ),
+ ),
+ ),
+ ),
+ );
+ }
+}
