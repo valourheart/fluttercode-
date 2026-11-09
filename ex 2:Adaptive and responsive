@@ -1,0 +1,64 @@
+import 'package:flutter/material.dart';
+void main() {
+ runApp(const MyApp());
+}
+class MyApp extends StatelessWidget {
+ const MyApp({super.key});
+ @override
+ Widget build(BuildContext context) {
+ return MaterialApp(
+ debugShowCheckedModeBanner: false,
+ home: const HomePage(),
+ );
+ }
+}
+class HomePage extends StatelessWidget {
+ const HomePage({super.key});
+ @override
+ Widget build(BuildContext context) {
+ return Scaffold(
+ appBar: AppBar(
+ title: const Text('Fruit Shop'),
+ centerTitle: true,
+ ),
+ body: LayoutBuilder(
+ builder: (context, constraints) {
+ double size = constraints.maxWidth < 600 ? 80 : 120;
+ return ListView(
+ children: [
+ fruitCard('Apple', '₹180.00', 'assets/apple.jpg', size),
+ fruitCard('Orange', '₹100.00', 'assets/orange.jpg', size),
+ fruitCard('Mango', '₹70.00', 'assets/mango.jpg', size),
+ fruitCard('Pomegranate', '₹250.00', 'assets/pomeg.jpg', size),
+ ],
+ );
+ },
+ ),
+ );
+ }
+ Widget fruitCard(String name, String price, String image, double size) {
+ return Card(
+ child: Row(
+ children: [
+ Image.asset(
+ image,
+ width: size,
+ height: size,
+ fit: BoxFit.cover,
+ ),
+ const SizedBox(width: 15),
+ Column(
+ crossAxisAlignment: CrossAxisAlignment.start,
+ children: [
+ Text(name),
+ Text(price),
+ ElevatedButton(
+JavaScript
+ onPressed: () {},
+ child: const Text('Buy Now'),
+ ),
+ ],
+ ),
+ ],
+ ),
+ );
