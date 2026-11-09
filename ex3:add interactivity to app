@@ -1,0 +1,102 @@
+import 'package:flutter/material.dart';
+void main() {
+ runApp(const MaterialApp(
+ debugShowCheckedModeBanner: false,
+ home: BudgetPage(),
+ ));
+}
+class BudgetPage extends StatefulWidget {
+ const BudgetPage({super.key});
+ @override
+ State<BudgetPage> createState() => _BudgetPageState();
+}
+class _BudgetPageState extends State<BudgetPage> {
+ final income = TextEditingController();
+ final rent = TextEditingController();
+ final food = TextEditingController();
+ final transport = TextEditingController();
+ final others = TextEditingController();
+ double balance = 0;
+ String message = '';
+ void calculate() {
+ double i = double.tryParse(income.text) ?? 0;
+ double r = double.tryParse(rent.text) ?? 0;
+ double f = double.tryParse(food.text) ?? 0;
+ double t = double.tryParse(transport.text) ?? 0;
+ double o = double.tryParse(others.text) ?? 0;
+ if (income.text.isEmpty || i <= 0 ||
+ rent.text.isEmpty || food.text.isEmpty ||
+ transport.text.isEmpty || others.text.isEmpty ||
+ r < 0 || f < 0 || t < 0 || o < 0) {
+ setState(() {
+ message = 'Enter valid amounts!';
+ });
+ return;
+ }
+ setState(() {
+ balance = i - (r + f + t + o);
+ message = balance < 0
+ ? 'You are overspending!'
+ : 'You have money remaining!';
+ });
+ }
+ @override
+ Widget build(BuildContext context) {
+ return Scaffold(
+ appBar: AppBar(title: const Text('Budget Calculator')),
+ body: Padding(
+ padding: const EdgeInsets.all(15),
+ child: ListView(
+ children: [
+ TextField(
+ controller: income,
+ decoration: const InputDecoration(labelText: 'Monthly Income'),
+ keyboardType: TextInputType.number,
+ ),
+ TextField(
+ controller: rent,
+ decoration: const InputDecoration(labelText: 'Rent / EMI'),
+ keyboardType: TextInputType.number,
+ ),
+ TextField(
+ controller: food,
+ decoration: const InputDecoration(labelText: 'Food Expenses'),
+ keyboardType: TextInputType.number,
+ ),
+ TextField(
+ controller: transport,
+ decoration: const InputDecoration(labelText: 'Transport Expenses'),
+ keyboardType: TextInputType.number,
+ ),
+ TextField(
+ controller: others,
+ decoration: const InputDecoration(labelText: 'Other Expenses'),
+ keyboardType: TextInputType.number,
+ ),
+ const SizedBox(height: 20),
+ ElevatedButton(
+ onPressed: calculate,
+ child: const Text('Calculate Balance'),
+ ),
+ const SizedBox(height: 20),
+ Text(
+ 'Remaining Balance: ₹$balance',
+ style: TextStyle(
+ fontSize: 20,
+ color: balance < 0 ? Colors.red : Colors.green,
+ ),
+ ),
+ Text(
+ message,
+ style: TextStyle(
+ color: message == 'You are overspending!'
+ ? Colors.red
+ : Colors.green,
+ ),
+ ),
+ ],
+ ),
+ ),
+ );
+ }
+}
