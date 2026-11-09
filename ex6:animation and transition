@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+void main() {
+ runApp(const MaterialApp(
+ debugShowCheckedModeBanner: false,
+ home: ProfilePage(),
+ ));
+}
+class ProfilePage extends StatefulWidget {
+ const ProfilePage({super.key});
+ @override
+ State<ProfilePage> createState() => _ProfilePageState();
+}
+class _ProfilePageState extends State<ProfilePage> {
+ bool show = false;
+ @override
+ Widget build(BuildContext context) {
+ return Scaffold(
+ appBar: AppBar(title: const Text('Student Profile')),
+ body: Column(
+ mainAxisAlignment: MainAxisAlignment.center,
+ children: [
+ AnimatedOpacity(
+ opacity: show ? 1 : 0,
+ duration: const Duration(seconds: 2),
+ child: Card(
+ child: ListTile(
+ title: const Text('Name: Anu'),
+ subtitle: const Text(
+ 'Register No: 12345\n'
+ 'Department: AI & ML\n'
+ 'Year: Third Year',
+ ),
+ ),
+ ),
+ ),
+ ElevatedButton(
+ onPressed: () {
+ setState(() {
+ show = true;
+ });
+ },
+ child: const Text('Show Profile'),
+ ),
+ ElevatedButton(
+ onPressed: () {
+ setState(() {
+ show = false;
+ });
+ },
+ child: const Text('Hide Profile'),
+ ),
+ ],
+ ),
+ );
+ }
+}
